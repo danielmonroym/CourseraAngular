@@ -20,6 +20,17 @@ import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { LeadersService } from './services/leaders.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component'; 
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatSliderModule} from '@angular/material/slider';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -30,7 +41,8 @@ import { LeadersService } from './services/leaders.service';
     FooterComponent,
     AboutComponent,
     HomeComponent,
-    ContactComponent
+    ContactComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -41,8 +53,22 @@ import { LeadersService } from './services/leaders.service';
     MatCardModule,
     MatButtonModule,
     FlexLayoutModule,
-    AppRoutingModule
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule, 
+    MatInputModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    MatSliderModule
+    
   ],
+  entryComponents: [
+    LoginComponent
+],
   providers: [DishService, PromotionService,LeadersService],
   bootstrap: [AppComponent]
 })
