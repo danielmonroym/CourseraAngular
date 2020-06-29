@@ -2,20 +2,42 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Feedback, ContactType } from '../shared/feedback';
+import { flyInOut, expand, visibility } from '../animations/app.animation';
+import { FeedbackService } from '../services/feedback.service';
 
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss']
+  styleUrls: ['./contact.component.scss'],
+  host: {
+    '[@flyInOut]': 'true',
+    'style': 'display: block;'
+    },
+    animations: [
+      flyInOut(),
+      expand(),
+      visibility()
+    ]
 })
 export class ContactComponent implements OnInit {
   @ViewChild('fform') feedbackFormDirective;
-
+  
   feedbackForm: FormGroup;
   feedback: Feedback;
+ 
+  feedbackcopy: Feedback;
   contactType = ContactType;
-  constructor(private fb: FormBuilder) { 
+  errMess: String;
+  firstname: string;
+  lastname: string;
+  email: string;
+  telnum: any;
+  message: string;
+  hide: boolean;
+  spinner: boolean;
+  visibility = 'shown';
+  constructor(private fb: FormBuilder, private feedbackservice: FeedbackService) { 
     this.createForm();
   }
   formErrors = {
@@ -66,7 +88,41 @@ export class ContactComponent implements OnInit {
   }
   onSubmit() {
     this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
+    console.log(this.feedbackcopy);
+    this.spinner=true;
+    this.feedbackservice.submitFeedback(this.feedback)
+    .subscribe(feedback=> {
+      this.feedback = feedback;    this.feedbackcopy = feedback;
+      this.spinner=false;
+    
+    this.firstname=feedback.firstname;
+    this.lastname=feedback.lastname;
+    this.email=feedback.email;
+    this.telnum=feedback.telnum;
+    this.message=feedback.message;
+    
+    },
+    errmess => { this.feedback= null;    this.feedbackcopy = null; this.errMess = <any>errmess; });
+   /* this.firstname=this.feedback.firstname;
+    this.lastname=this.feedback.lastname;
+    this.email=this.feedback.email;
+    this.telnum=this.feedback.telnum;
+    this.message=this.feedback.message;
+    this.hide=true;
+    this.spinner=false;
+    */
+   this.hide=true;
+  
+setTimeout(()=>{    
+  this.firstname='';
+  this.lastname='';
+  this.email='';
+  this.telnum='';
+  this.message='';
+  this.hide=false;
+ }, 5000);
+   
+   
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',

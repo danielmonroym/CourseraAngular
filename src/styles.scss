@@ -31,7 +31,12 @@ body {
     margin: 20px;
     display:flex;
 }
-
+.highlight {
+  background-color: $background-pale;
+  border: 1px solid $primary-color-dark;
+  z-index: 1;
+  transform: scale(1.01);
+}
 
 .background-primary {
   background-color: $background-dark!important;
